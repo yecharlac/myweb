@@ -1,0 +1,89 @@
+PWD
+USERNAME
+HOME
+echo $
+
+bash
+echo $$
+'
+""
+single line comments:
+_
+
+#
+multi-line comments:
+_____________________
+: '
+lines '
+operators:
+___________
+is symbol
+ used to perform action on the operands
+operands mean variables
+
+arithmetic operators:
+_______________________
++,-,*,/,%
+
+relational operators:
+
+________________________
+<---------------- -lt
+<= ------------ -le
+>              -gt
+>=             -ge
+=            
+==            -eq
+!                  -ne
+-----------------------------------------
+write a shell script to  ccount no of  users are logged:
+________________________________________________________
+wc -l 
+var=who | wc -l
+echo $var
+if [ condiiton ]
+then
+   //true
+else
+  //false
+fi
+
+
+if [ condition]
+then
+fi
+
+if [ condition ]
+then
+   //true
+else
+//flase
+fi
+
+if [ condition ]
+then
+   
+  elif[]
+  elif[]
+
+else 
+fi
+
+vi testloginuser.sh
+
+echo test no of users connected to the server
+cnt=(who | wc -l)
+echo $cnt
+
+if [ $cnt -gt 0 ]
+;then
+echo more than one user is logged
+else
+ echo only one or none of the users logged
+fi
+
+
+()
+{
+}
+if [ condition];then 
