@@ -42,7 +42,7 @@ pipeline{
             steps{
                  sh 'docker build -t ciciddeploy/spring-boot-mongo .'
                  sh 'docker build -t tomcat:${BUILD_NUMBER} .'
-                 sh 'docker run -itd --name ansible.pem -p 2800:8080 tomcat:${BUILD_NUMBER}'
+                 sh 'docker run -itd --name chandu.pem -p 2700:8080 tomcat:${BUILD_NUMBER}'
              }
          }
         stage('Push Docker Image'){
