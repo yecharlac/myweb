@@ -1,0 +1,57 @@
+pipeleine{
+    agent any
+      tools {
+         maven 'Maven-3.6.1'
+      }
+      
+      environment {
+         PATH = "/opt/maven3/bin:$PATH"
+      }
+         stges {
+           stage("Git check out"){
+               step{
+                   git credentialsId: 'javahome3', url: 'https://github.com/yecharlac/myweb.git'
+               }
+           }
+            stage("Maven Build"){
+               step{
+                   sh "mvn clean sonar:sonar package"
+               }
+            }
+            stage("Upload War To Nexus"){
+                step{
+                      nexusArtifactUploader artifacts: [
+                           [
+                                artifactId: 'myweb',
+                                classifier: '',
+                                file: 'target/myweb-8.2.0.war',
+                                type: 'war'
+                           ]
+                      ],
+                      credentialsId: 'nexus3',
+                      groupId: 'in.javahom
+                      nexusUrl: '172.31.43.20tart:8081/',
+                      nexusVersion: 'nexus3',
+                      protocol: 'http',
+                      repository: 'sample-releases',
+                      version: '8.2.0'
+                 }
+             }
+             stage("Build Docker Image"){
+                step{
+                     sh 'docker build -t ciciddpeloy/spring-boot-mongo .'
+                     sh 'docker build -t tomcat:${BUILD_NUMBER} .'
+                     sh 'dockerrun -itd --name ansible.pem -p 2800:8080 tomcat:${BUILD_NUMBER}'
+                }
+             } 
+             stage("Push Docker Image"){
+                step{
+                     withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'DOCKER_HUB_CREDENTIALS')]) {
+                             sh "docker login -i ciciddeploy -p ${DOCKER_HUB_CREDENTIALS}"
+                     }
+                     sh 'docker push ciciddeploy/spring-boot-mongo'
+                }     
+            }
+               
+         }           
+}
